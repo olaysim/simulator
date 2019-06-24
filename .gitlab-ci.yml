@@ -1,0 +1,43 @@
+image: andreptb/maven:latest
+
+# Pipeline definition
+stages:
+  - build
+  - deploy
+
+# Build application
+build:
+  stage: build
+  tags:
+    - syslab
+  cache:
+    paths:
+      - "proxy/target/*.jar"
+  script:
+    - java -version
+    - mvn package -B
+
+# Automated deployment to nodes
+deploy:
+  image: 127.0.0.1:5000/syslab-deploy
+  stage: deploy
+  when: manual
+  only:
+    - master
+  tags:
+    - syslab
+  cache:
+    paths:
+      - "proxy/target/*.jar"
+    policy: pull
+  script:
+    #- fab -V
+    #- fab --no_agent --fabfile=proxy/config/fabfile.py set_hosts deploy
+    - java -version
+    - java -jar proxy/deploy.jar -c proxy/config/proxy.json -t ${TOKEN} --return-zero stop
+    - sleep 5
+    - java -jar proxy/deploy.jar -c proxy/config/proxy.json -t ${TOKEN} upload
+    - sleep 10
+    - java -jar proxy/deploy.jar -c proxy/config/proxy.json -t ${TOKEN} update
+    - sleep 10
+    - java -jar proxy/deploy.jar -c proxy/config/proxy.json -t ${TOKEN} --return-zero start

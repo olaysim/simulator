@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+option java_package = "dk.orda.overlaynetwork.net.rpc.protobuf";
+option java_outer_classname = "RpcMessages";
+
+// BASE DATA OBJETS
+message Header {
+    string correlationId = 1;
+    string targetId = 2;
+    string senderId = 3;
+    Peer sender = 4;
+    string queryId = 5;
+    string networkId = 6;
+    int32 networkType = 7;
+}
+
+message Ext {
+    map<string, string> dict = 1;
+    map<string, bytes> byteDict = 2;
+}
+
+message Peer {
+    string id = 1;
+    string idStr = 2;
+    string address = 3;
+    int32 port = 4;
+    Ext ext = 5;
+}
+
+// REQUESTS
+message FindNode {
+    Header header = 1;
+    Ext ext = 2;
+}
+
+message FindValue {
+    Header header = 1;
+    Ext ext = 2;
+    string key = 3;
+}
+
+message FindMap {
+    Header header = 1;
+    Ext ext = 2;
+    string key = 3;
+    string index = 4;
+}
+
+message StoreValue {
+    Header header = 1;
+    Ext ext = 2;
+    string key = 3;
+    bytes value = 4;
+}
+
+message AddValue {
+    Header header = 1;
+    Ext ext = 2;
+    string key = 3;
+    string index = 4;
+    bytes value = 5;
+}
+
+// RESPONSES
+message ValueOrNodes {
+    Header header = 1;
+    bytes value = 2;
+    repeated Peer peers = 3;
+}
+
+message ListOrNodes {
+    Header header = 1;
+    int32 type = 2;
+    repeated bytes value = 3;
+    repeated Peer peers = 4;
+}
+
+message MapOrNodes {
+    Header header = 1;
+    int32 type = 2;
+    map<string, bytes> value = 3;
+    repeated Peer peers = 4;
+}
+
+
+
+// OTHER
+message Ping {
+    Header header = 1;
+    string target = 5;
+    int64 timestamp = 6;
+}
+
+message GetSeeds {
+    string correlationId = 1;
+    string id = 2;
+    string address = 3;
+    int32 port = 4;
+}
+
+message SeedsOrStatus {
+    string correlationId = 1;
+    bool ready = 2;
+    repeated Peer peers = 3;
+}

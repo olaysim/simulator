@@ -1,0 +1,2 @@
+ ${AnsiColor.BRIGHT_BLUE}:: ${AnsiColor.GREEN}Spring Boot v${spring-boot.version} ${AnsiColor.BRIGHT_BLUE}::${AnsiColor.BLACK}
+ ${AnsiColor.CYAN}------------------------------------------------------------------------------------------------------------------------------------

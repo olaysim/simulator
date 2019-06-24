@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Based on Spring boot's default logback logging configuration but adds duplicate message filter
+-->
+
+<configuration>
+    <!-- Include Spring boot's defaults -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+    <!-- CONSOLE APPENDER -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE" />
+     </root>
+
+</configuration>

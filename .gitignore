@@ -1,0 +1,16 @@
+target/
+.settings
+.project
+.classpath
+.idea
+*.iml
+atlassian-ide-plugin.xml
+com_crashlytics_export_strings.xml
+crashlytics-build.properties
+crashlytics.properties
+/proxy/config/fabfile.pyc
+/proxy/config.conf
+/proxy.log
+/*.gz
+/demo/data
+/data
